@@ -1,0 +1,14 @@
+<div class="container pt-3 h-100">
+  <div class="row h-100">
+    <div class="col-md-12 p-0 mb-2">
+      <app-filter></app-filter>
+    </div>
+    <div class="grid border border-2 rounded-2 p-2">
+      <app-npm-package
+        *ngFor="let npmPackage of npmListService.npmPackages | shortener"
+        [npmPackage]="npmPackage"
+        class="g-col-6 g-col-md-4"
+      ></app-npm-package>
+    </div>
+  </div>
+</div>

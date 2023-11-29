@@ -1,3 +1,4 @@
 export const environments = {
-    apiURL: 'https://github.com/MrCelestis/mock-interview-api'
+    // apiURL: 'http://127.0.0.1:3000'
+    // apiURL: 'http://localhost:3000'
 }
