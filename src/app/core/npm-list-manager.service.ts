@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
 import { NpmPackage } from '../models/NpmPackage';
 import { Subject } from 'rxjs';
+import { NpmPackageDependencies } from '../models/NpmPackageDependencies';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NpmListManagerService {
-  public npmPackages: NpmPackage[] = [];
+  public npmPackageDependenciesMap: Map<string, string[]> = new Map<
+    string,
+    string[]
+  >();
 
-  public npmPackageDependencies: string[] = [];
-
-  public npmPackageIdSearch: Subject<string> = new Subject<string>();
-  public npmPackagesChanged = new Subject<NpmPackage[]>();
-  public npmPackagesDependenciesChanged = new Subject<string[]>();
   public npmPackageResetBackgroundColor = new Subject();
+  public npmPackagesChanged = new Subject<NpmPackage[]>();
+  public npmPackageIdSearch: Subject<string> = new Subject<string>();
+  public npmPackagesDependenciesChanged = new Subject<NpmPackageDependencies>();
+
+  private npmPackages: NpmPackage[] = [];
 
   /**
    * Локально сохраняет массив npm пакетов и пробрасывает его копию слушателям Subject
@@ -40,27 +44,34 @@ export class NpmListManagerService {
     this.npmPackagesChanged.next(
       this.npmPackages
         .slice()
-        .filter((npmPackage) => npmPackage.id.toLowerCase().includes(id.toLowerCase()))
+        .filter((npmPackage) =>
+          npmPackage.id.toLowerCase().includes(id.toLowerCase())
+        )
     );
   }
 
   /**
-   * Локально сохраняет массив зависимостей для npm пакета и пробрасывает массив слушателям Subject
+   * Сохраняет в Map массив зависимостей для npm пакета, его id и пробрасывает эту информацию слушателям Subject
+   * @param parentId Родитель/потребитель этих зависимостей
    * @param dependencies Массив зависимостей для сохранения
    */
-  public setNpmPackageDependencies(dependencies: string[]): void {
-    this.npmPackageDependencies = [];
+  public setNpmPackageDependencies(
+    parentId: string,
+    dependencies: string[]
+  ): void {
     let filteredDependencies: string[] = [];
     filteredDependencies =
       this.filterDependenciesPackagesByLocalNpmPackagesList(dependencies);
-    if (filteredDependencies.length > 0) {
-      this.npmPackageDependencies = filteredDependencies;
-      this.npmPackagesDependenciesChanged.next(this.npmPackageDependencies);
+    this.npmPackageDependenciesMap.set(parentId, filteredDependencies);
+    if (filteredDependencies.length) {
+      this.npmPackagesDependenciesChanged.next(
+        new NpmPackageDependencies(parentId, filteredDependencies)
+      );
     }
   }
 
   /**
-   * Фильтрует переданный массив зависимостей по локально хранящемуся массиву npm пакетам.
+   * Фильтрует переданный массив зависимостей по локально хранящемуся массиву npm пакетов.
    * @param dependencies Массив зависимостей для фильтрации
    * @returns Отфильтрованный массив зависимостей
    */

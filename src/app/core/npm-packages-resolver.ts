@@ -10,7 +10,7 @@ import { inject } from '@angular/core';
  */
 export const resolveNpmPackages: ResolveFn<NpmPackage[]> = () => {
   let npmPackages = inject(NpmListManagerService).getNpmPackagesList();
-  if (npmPackages.length === 0) {
+  if (!npmPackages.length) {
     return inject(NpmListService).getNpmPackagesList();
   }
   return npmPackages;

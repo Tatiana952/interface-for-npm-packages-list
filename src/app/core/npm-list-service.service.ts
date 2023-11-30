@@ -38,9 +38,10 @@ export class NpmListService {
     return this.httpClient
       .get<string[]>(`/packages/${newId}/dependencies`)
       .pipe(
-        filter((npmPackagesDependencies) => npmPackagesDependencies.length > 0),
+        filter(() => !this.npmListManager.npmPackageDependenciesMap.has(id)),
         tap((npmPackagesDependencies) => {
           this.npmListManager.setNpmPackageDependencies(
+            id,
             npmPackagesDependencies
           );
         })

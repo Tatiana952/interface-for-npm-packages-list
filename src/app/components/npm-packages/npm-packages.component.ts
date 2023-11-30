@@ -23,9 +23,10 @@ export class NpmPackagesComponent implements OnInit, OnDestroy {
       this.npmListManagerService.npmPackagesChanged.subscribe((npmPackages) => {
         return (this.npmPackages = npmPackages);
       });
+      
     this.npmPackageIdSearchSubscription =
-      this.npmListManagerService.npmPackageIdSearch.subscribe((npmPackageID) =>
-        this.npmListManagerService.filterNpmPackages(npmPackageID)
+      this.npmListManagerService.npmPackageIdSearch.subscribe((npmPackageId) =>
+        this.npmListManagerService.filterNpmPackages(npmPackageId)
       );
   }
 
