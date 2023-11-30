@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, filter, tap } from 'rxjs';
+import { Observable, filter, map, tap } from 'rxjs';
 import { NpmPackage } from '../models/NpmPackage';
 import { NpmListManagerService } from './npm-list-manager.service';
 
@@ -38,9 +38,10 @@ export class NpmListService {
     return this.httpClient
       .get<string[]>(`/packages/${newId}/dependencies`)
       .pipe(
-        filter((npmPackagesDependencies) => npmPackagesDependencies.length > 0),
+        filter(() => !this.npmListManager.npmPackageDependenciesMap.has(id)),
         tap((npmPackagesDependencies) => {
           this.npmListManager.setNpmPackageDependencies(
+            id,
             npmPackagesDependencies
           );
         })
