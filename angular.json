@@ -16,18 +16,11 @@
             "outputPath": "dist/interface-for-npm-packages-list",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
-            "scripts": []
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css", "./node_modules/bootstrap/dist/css/bootstrap.min.css"],
+            "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.min.js"]
           },
           "configurations": {
             "production": {
@@ -66,6 +59,11 @@
               "browserTarget": "interface-for-npm-packages-list:build:development"
             }
           },
+          "options": {
+            "browserTarget": "interface-for-npm-packages-list:build:development",
+            "proxyConfig": "src/proxy.conf.json"
+          },
+    
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
@@ -77,18 +75,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }

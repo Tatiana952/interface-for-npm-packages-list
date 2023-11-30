@@ -1,0 +1,7 @@
+<div class="d-flex flex-wrap border border-2 rounded-2 p-2 custom-class">
+  <app-npm-package
+    *ngFor="let npmPackage of npmPackages | shortener"
+    [npmPackage]="npmPackage"
+    class="col-sm-4"
+  ></app-npm-package>
+</div>
