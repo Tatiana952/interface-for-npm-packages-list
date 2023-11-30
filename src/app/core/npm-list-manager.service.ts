@@ -40,7 +40,7 @@ export class NpmListManagerService {
     this.npmPackagesChanged.next(
       this.npmPackages
         .slice()
-        .filter((npmPackage) => npmPackage.id.includes(id))
+        .filter((npmPackage) => npmPackage.id.toLowerCase().includes(id.toLowerCase()))
     );
   }
 
