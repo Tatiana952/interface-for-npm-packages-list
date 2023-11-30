@@ -7,18 +7,17 @@ import { NpmPackageDependencies } from '../models/NpmPackageDependencies';
   providedIn: 'root',
 })
 export class NpmListManagerService {
-  public npmPackages: NpmPackage[] = [];
-
-  public npmPackageDependencies: NpmPackageDependencies;
   public npmPackageDependenciesMap: Map<string, string[]> = new Map<
     string,
     string[]
   >();
 
-  public npmPackageIdSearch: Subject<string> = new Subject<string>();
-  public npmPackagesChanged = new Subject<NpmPackage[]>();
-  public npmPackagesDependenciesChanged = new Subject<NpmPackageDependencies>();
   public npmPackageResetBackgroundColor = new Subject();
+  public npmPackagesChanged = new Subject<NpmPackage[]>();
+  public npmPackageIdSearch: Subject<string> = new Subject<string>();
+  public npmPackagesDependenciesChanged = new Subject<NpmPackageDependencies>();
+
+  private npmPackages: NpmPackage[] = [];
 
   /**
    * Локально сохраняет массив npm пакетов и пробрасывает его копию слушателям Subject
@@ -52,7 +51,7 @@ export class NpmListManagerService {
   }
 
   /**
-   * Локально сохраняет массив зависимостей для npm пакета, его id в словарь и пробрасывает словарь слушателям Subject
+   * Сохраняет в Map массив зависимостей для npm пакета, его id и пробрасывает эту информацию слушателям Subject
    * @param parentId Родитель/потребитель этих зависимостей
    * @param dependencies Массив зависимостей для сохранения
    */
@@ -65,11 +64,9 @@ export class NpmListManagerService {
       this.filterDependenciesPackagesByLocalNpmPackagesList(dependencies);
     this.npmPackageDependenciesMap.set(parentId, filteredDependencies);
     if (filteredDependencies.length) {
-      this.npmPackageDependencies = new NpmPackageDependencies(
-        parentId,
-        filteredDependencies
+      this.npmPackagesDependenciesChanged.next(
+        new NpmPackageDependencies(parentId, filteredDependencies)
       );
-      this.npmPackagesDependenciesChanged.next(this.npmPackageDependencies);
     }
   }
 

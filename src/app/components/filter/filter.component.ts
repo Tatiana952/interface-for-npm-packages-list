@@ -25,7 +25,7 @@ export class FilterComponent implements OnDestroy {
 
   /**
    * Проброс текста напечатанного в окне ввода в Subject для его слушателей
-   * @param $event \
+   * @param $event Информация о событии нажатия клавиши
    */
   public onKey($event) {
     this.npmListManagerService.npmPackageIdSearch.next($event.target.value);

@@ -44,13 +44,6 @@ export class NpmPackageComponent implements OnInit, OnDestroy {
 
     this.npmPackagesDependenciesChangedSubscription =
       this.npmListManager.npmPackagesDependenciesChanged.subscribe(
-        // (packagesId: string[]) => {
-        //   this.npmPackageDependencies = packagesId;
-        //   if (packagesId.includes(this.npmPackage.id)) {
-        //     this.packageTitle.nativeElement.style.backgroundColor = '#eca9a9ad'; //light-red color
-        //   }
-        // }
-
         (npmPackageDependencies) => {
           this.npmPackageDependencies = npmPackageDependencies.dependenciesId;
           if (
@@ -82,7 +75,7 @@ export class NpmPackageComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * При наведении мышью на карточку npm пакета фон заголовка окрашивается в светло-зеленый. Если локально данных о зависимостях нет, то отправляется запрос на получение его массива зависимостей, иначе берется из Map
+   * При наведении мышью на карточку npm пакета фон заголовка окрасится в светло-зеленый. Если локально данных о зависимостях нет, то отправляется запрос на получение его массива зависимостей, иначе берется из локального Map
    */
   @HostListener('mouseenter') onMouseEnter() {
     this.packageTitle.nativeElement.style.backgroundColor = '#a9ecbbad'; //light-green color
