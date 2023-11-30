@@ -1,0 +1,12 @@
+<div
+  class="d-flex flex-wrap border border-2 rounded-2 p-2 custom-class"
+>
+<!-- h-50  w-100  -->
+  <app-npm-package
+    *ngFor="let npmPackage of npmPackages | shortener"
+    [npmPackage]="npmPackage"
+    class="col-sm-4"
+    ></app-npm-package>
+    <!-- (eventResetBackgroundColor)="parentData = $event"
+    [npmPackageResetBackgroundColor] = "parentData" -->
+</div>

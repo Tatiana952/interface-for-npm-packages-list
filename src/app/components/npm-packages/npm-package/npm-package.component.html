@@ -1,0 +1,26 @@
+<div class="border m-2 rounded-2 g-col-4">
+  <div class="rounded-top-2 packageTitle" #packageTitle>
+    <span [ngSwitch]="slashPosition">
+      <p *ngSwitchCase="-1" class="p-2 mb-0">
+        {{ npmPackage.id }}
+      </p>
+      <p *ngSwitchDefault class="p-2 mb-0">
+        <span class="text-danger">{{ npmPackageIdParts[0] }}/</span>
+        <span>{{ npmPackageIdParts[1] }}</span>
+      </p>
+    </span>
+  </div>
+  <hr class="m-0" />
+  <div class="m-2 d-flex flex-column">
+    <p class="mb-1">
+      {{ npmPackage.weeklyDownloads }}
+      <img
+        src="../../../assets/images/box-arrow-in-down.svg"
+        alt="download-image"
+      />
+    </p>
+    <p class="mb-1 text-secondary">
+      {{ npmPackage.dependencyCount }} dependencies
+    </p>
+  </div>
+</div>

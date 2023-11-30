@@ -1,14 +1,10 @@
-<div class="container pt-3 h-100">
-  <div class="row h-100">
-    <div class="col-md-12 p-0 mb-2">
+<div
+  class="container p-3 h-100 w-100 d-flex flex-row justify-content-center align-items-center"
+>
+  <div class="h-50 w-100 d-flex flex-column align-items-start">
+    <div class="p-0 mb-2">
       <app-filter></app-filter>
     </div>
-    <div class="grid border border-2 rounded-2 p-2">
-      <app-npm-package
-        *ngFor="let npmPackage of npmListService.npmPackages | shortener"
-        [npmPackage]="npmPackage"
-        class="g-col-6 g-col-md-4"
-      ></app-npm-package>
-    </div>
+    <app-npm-packages class="h-100 w-100"></app-npm-packages>
   </div>
 </div>
