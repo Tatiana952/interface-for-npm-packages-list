@@ -12,24 +12,25 @@ export class NpmPackagesComponent implements OnInit, OnDestroy {
   public npmPackages: NpmPackage[];
 
   private npmPackagesListSubscription: Subscription;
-  private npmPackageIdSubscription: Subscription;
+  private npmPackageIdSearchSubscription: Subscription;
 
   constructor(public npmListManagerService: NpmListManagerService) {}
 
   ngOnInit(): void {
+    this.npmPackages = this.npmListManagerService.getNpmPackagesList();
+
     this.npmPackagesListSubscription =
       this.npmListManagerService.npmPackagesChanged.subscribe((npmPackages) => {
         return (this.npmPackages = npmPackages);
       });
-    this.npmPackageIdSubscription =
-      this.npmListManagerService.npmPackageID.subscribe((npmPackageID) =>
+    this.npmPackageIdSearchSubscription =
+      this.npmListManagerService.npmPackageIdSearch.subscribe((npmPackageID) =>
         this.npmListManagerService.filterNpmPackages(npmPackageID)
       );
-    this.npmPackages = this.npmListManagerService.getNpmPackagesList();
   }
 
   ngOnDestroy(): void {
     this.npmPackagesListSubscription.unsubscribe();
-    this.npmPackageIdSubscription.unsubscribe();
+    this.npmPackageIdSearchSubscription.unsubscribe();
   }
 }

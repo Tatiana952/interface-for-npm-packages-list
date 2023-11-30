@@ -1,5 +1,5 @@
-export interface NpmPackage{
-    id: string,
-    dependencyCount:number,
-    weeklyDownloads: string,
+export interface NpmPackage {
+  id: string;
+  dependencyCount: number;
+  weeklyDownloads: string;
 }

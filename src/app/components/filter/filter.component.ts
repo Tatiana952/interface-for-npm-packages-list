@@ -6,7 +6,6 @@ import { NpmListService } from 'src/app/core/npm-list-service.service';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css'],
 })
 export class FilterComponent implements OnDestroy {
   @Input() npmPackageId: string;
@@ -24,10 +23,17 @@ export class FilterComponent implements OnDestroy {
     }
   }
 
+  /**
+   * Проброс текста напечатанного в окне ввода в Subject для его слушателей
+   * @param $event \
+   */
   public onKey($event) {
-    this.npmListManagerService.npmPackageID.next($event.target.value);
+    this.npmListManagerService.npmPackageIdSearch.next($event.target.value);
   }
 
+  /**
+   * Перезагрузка массива npm пакетов
+   */
   public onClick() {
     this.npmPackageId = '';
     this.npmPackagesSubscription = this.npmListService

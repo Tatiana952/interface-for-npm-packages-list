@@ -1,6 +1,16 @@
 <div class="d-flex flex-row">
-  <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="npmPackageId" (keyup)="onKey($event)" />
-  <button type="button" class="btn btn-primary ms-3 text-light" (click)="onClick()">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search..."
+    [(ngModel)]="npmPackageId"
+    (keyup)="onKey($event)"
+  />
+  <button
+    type="button"
+    class="btn btn-primary ms-3 text-light"
+    (click)="onClick()"
+  >
     <img src="../../../assets/images/arrow-repeat.svg" alt="update" />
   </button>
 </div>

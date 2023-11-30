@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { resolveNpmPackages } from './npm-packages-resolver';
-import { NpmPackagesComponent } from './components/npm-packages/npm-packages.component';
+import { resolveNpmPackages } from './core/npm-packages-resolver';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: NpmPackagesComponent,
+    component: AppComponent,
     resolve: [resolveNpmPackages],
   },
 ];

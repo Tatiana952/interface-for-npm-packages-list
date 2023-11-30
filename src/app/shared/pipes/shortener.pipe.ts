@@ -8,7 +8,7 @@ export class ShortenerPipe implements PipeTransform {
   /**
    * Если число скачиваний npm пакета превышает 1000, то оно будет округлено вниз до тысяч с буквой «К»
    * @param npmPackages Массив с данными о npm пакетах
-   * @returns Измененный массив с данными о пакетах.
+   * @returns Начальный или Измененный массив с данными о пакетах.
    */
   transform(npmPackages: NpmPackage[]): NpmPackage[] {
     if (npmPackages) {

@@ -26,7 +26,6 @@ export class NpmPackageComponent implements OnInit, OnDestroy {
   public npmPackageIdParts: string[] = [];
 
   private npmPackageDependencies: string[] = [];
-
   private npmPackageDependenciesSubscription: Subscription;
   private npmPackagesDependenciesChangedSubscription: Subscription;
   private npmPackagesResetBackgroundColorSubscription: Subscription;
@@ -44,43 +43,51 @@ export class NpmPackageComponent implements OnInit, OnDestroy {
 
     this.npmPackagesDependenciesChangedSubscription =
       this.npmListManager.npmPackagesDependenciesChanged.subscribe(
-        (id: string[]) => {
-          this.npmPackageDependencies = id;
-          if (id.includes(this.npmPackage.id)) {
+        (packagesId: string[]) => {
+          this.npmPackageDependencies = packagesId;
+          if (packagesId.includes(this.npmPackage.id)) {
             this.packageTitle.nativeElement.style.backgroundColor = '#eca9a9ad'; //light-red color
           }
         }
       );
 
     this.npmPackagesResetBackgroundColorSubscription =
-      this.npmListManager.npmPackageResetBackgroundColor.subscribe(
-        (npmPackageDependencies) => {
-          // if (npmPackageDependencies.includes(this.npmPackage.id)) {
-            this.packageTitle.nativeElement.style.backgroundColor = '#fff';
-          // }
+      this.npmListManager.npmPackageResetBackgroundColor.subscribe(() => {
+        if (this.npmPackageDependencies.includes(this.npmPackage.id)) {
+          this.packageTitle.nativeElement.style.backgroundColor = '#fff';
         }
-      );
+      });
   }
 
   ngOnDestroy(): void {
-    this.npmPackageDependenciesSubscription.unsubscribe();
-    this.npmPackagesDependenciesChangedSubscription.unsubscribe();
-    this.npmPackagesResetBackgroundColorSubscription.unsubscribe();
+    if (this.npmPackageDependenciesSubscription) {
+      this.npmPackageDependenciesSubscription.unsubscribe();
+    }
+    if (this.npmPackagesDependenciesChangedSubscription) {
+      this.npmPackagesDependenciesChangedSubscription.unsubscribe();
+    }
+    if (this.npmPackagesResetBackgroundColorSubscription) {
+      this.npmPackagesResetBackgroundColorSubscription.unsubscribe();
+    }
   }
 
-  @HostListener('mouseenter') onMouseOver() {
+  /**
+   * При наведении мышью на карточку npm пакета фон заголовка окрашивается в светло-зеленый и отправляется запрос на получение его массива зависимостей
+   */
+  @HostListener('mouseenter') onMouseEnter() {
     this.packageTitle.nativeElement.style.backgroundColor = '#a9ecbbad'; //light-green color
     this.npmPackageDependenciesSubscription = this.npmListService
       .getNpmPackageDependencies(this.npmPackage.id)
       .subscribe();
   }
 
-  @HostListener('mouseleave') onMouseOut() {
+  /**
+   * Когда мышь покинет пространство карточки цвет заголовка изменится на белый
+   */
+  @HostListener('mouseleave') onMouseLeave() {
     this.packageTitle.nativeElement.style.backgroundColor = '#fff';
     if (this.npmPackageDependencies.length > 0) {
-      this.npmListManager.npmPackageResetBackgroundColor.next(
-        this.npmPackageDependencies
-      );
+      this.npmListManager.npmPackageResetBackgroundColor.next(null);
     }
     this.npmPackageDependenciesSubscription.unsubscribe();
   }
